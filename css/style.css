@@ -1,1 +1,270 @@
+/* Загальні стилі */
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+  background-color: #FFF0E1;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+}
+
+p, li, a {
+  font-weight: 300;
+}
+
+/* Контейнер для всього контенту */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* --- Шапка --- */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* логотип ліворуч, бургер праворуч */
+  padding: 10px 20px;
+  background-color: #FFC0CB;
+  position: relative;
+  flex-wrap: wrap; /* щоб назва та меню могли переноситись */
+}
+
+header .logo {
+  height: 50px;
+  width: auto;
+}
+
+.header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* по центру назва + меню */
+  flex: 1; /* займає весь простір між логотипом і бургером */
+}
+
+.header-center h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+margin-bottom: 15px;
+}
+
+header nav ul.desktop-menu {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 0 0;
+}
+
+header nav ul.desktop-menu li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+header nav ul li a:hover,
+.mobile-menu li a:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+header nav ul li a.active,
+.mobile-menu li a.active {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Бургер --- */
+.burger {
+  display: none; 
+  cursor: pointer;
+  z-index: 101;
+}
+
+.burger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  margin: 5px 0;
+  border-radius: 2px;
+}
+
+/* --- Основний контейнер --- */
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* --- Лівий фільтр --- */
+.filter {
+  flex: 1;
+  max-width: 300px;
+  background-color: #FFE4E1;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.filter h2, .filter h3 {
+  margin-top: 0;
+}
+
+.filter label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* --- Права частина (товари) --- */
+.products {
+  flex: 3;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  min-height: 400px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  flex: 1 1 250px;
+  max-width: 300px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* --- Плавна поява карток --- */
+.card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Плавна поява сторінок --- */
+.page {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  display: block;
+  overflow: hidden;
+  height: 0;
+}
+
+.page.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  height: auto;
+}
+
+/* --- Мобільне меню --- */
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: #FFE4E1;
+  position: absolute;
+  top: 60px;
+  right: 15px;
+  width: 200px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  z-index: 100;
+
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+}
+
+.mobile-menu.open {
+  max-height: 500px;
+  opacity: 1;
+}
+
+/* --- Футер --- */
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+footer p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+/* --- Команда "Товарів ще немає" --- */
+.coming-soon {
+  text-align: center;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.4);
+  margin-top: 170px;
+  font-style: italic;
+}
+
+/* --- Адаптивність --- */
+@media (max-width: 768px) {
+  header nav ul.desktop-menu {
+    display: none;
+  }
+
+  .burger {
+    display: block;
+  }
+
+  .main-container {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+
+.filter {
+    flex: 1;
+    max-width: 200px;
+  }
+
+  .products {
+    flex: 3;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter {
+    max-width: 150px;
+    padding: 10px;
+  }
+  .products {
+    padding: 10px;
+  }
+}
 
