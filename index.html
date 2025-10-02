@@ -1,1 +1,114 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Магазин косметики</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+ <img src="https://e7.pngegg.com/pngimages/816/19/png-clipart-cosmetics-logo-product-brand-beauty-faberlic-kosmetika-face-text.png" alt="Логотип" class="logo">
+<div class="header-center">
+ <h1>Магазин косметики</h1>
+
+  <!-- Бургер-кнопка -->
+  <div class="burger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <!-- Меню -->
+  <nav>
+    <ul class="desktop-menu">
+      <li><a href="#" data-page="home">Головна</a></li>
+      <li><a href="#" data-page="about">Про нас</a></li>
+      <li><a href="#" data-page="contacts">Контакти</a></li>
+    </ul>
+    <ul class="mobile-menu">
+      <li><a href="#" data-page="home">Головна</a></li>
+      <li><a href="#" data-page="about">Про нас</a></li>
+      <li><a href="#" data-page="contacts">Контакти</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="main-container">
+
+  <!-- Фільтри -->
+  <aside class="filter">
+    <h2>Фільтр продуктів</h2>
+
+    <div class="filter-section">
+      <h3>Ціна</h3>
+      <label><input type="radio" name="price" value="0-500"> 0–500 грн</label>
+      <label><input type="radio" name="price" value="500-1500"> 500–1500 грн</label>
+      <label><input type="radio" name="price" value="1500+"> 1500 грн і більше</label>
+    </div>
+
+    <div class="filter-section">
+      <h3>Наявність</h3>
+      <label><input type="checkbox" name="inStock" value="yes"> В наявності</label>
+      <label><input type="checkbox" name="inStock" value="no"> Немає в наявності</label>
+    </div>
+
+    <div class="filter-section">
+      <h3>Бренд</h3>
+      <label><input type="checkbox" name="brand" value="LuxeBeauty"> LuxeBeauty</label>
+      <label><input type="checkbox" name="brand" value="GlowUp"> GlowUp</label>
+      <label><input type="checkbox" name="brand" value="NaturalCare"> NaturalCare</label>
+      <label><input type="checkbox" name="brand" value="BellaCosmetics"> BellaCosmetics</label>
+      <label><input type="checkbox" name="brand" value="SkinEssence"> SkinEssence</label>
+      <label><input type="checkbox" name="brand" value="HairMagic"> HairMagic</label>
+    </div>
+
+    <div class="filter-section">
+      <h3>Призначення</h3>
+      <label><input type="checkbox" name="purpose" value="eyes"> Для очей</label>
+      <label><input type="checkbox" name="purpose" value="body"> Для тіла</label>
+      <label><input type="checkbox" name="purpose" value="skin"> Для шкіри</label>
+      <label><input type="checkbox" name="purpose" value="nails"> Для нігтів</label>
+      <label><input type="checkbox" name="purpose" value="hair"> Для волосся</label>
+    </div>    
+  </aside>
+
+<!-- Сторінки -->
+<section class="content">
+  <section id="home" class="page show">
+    <h2>Головна</h2>
+    <p>Ласкаво просимо до нашого магазину косметики! Тут ви знайдете найкращі продукти для догляду за собою.</p>
+<p class="coming-soon">Товарів ще немає, будь ласка, очікуйте...</p>
+  </section>
+
+  <section id="about" class="page">
+    <h2>Про нас</h2>
+    <p>Ми пропонуємо широкий асортимент натуральних та якісних продуктів. Наша мета – допомогти кожному знайти свій ідеальний продукт.</p>
+  </section>
+
+  <section id="contacts" class="page">
+    <h2>Контакти</h2>
+    <p>Адреса: м. Київ, вул. Краси, 10</p>
+    <p>Телефон: +380 99 123 45 67</p>
+    <p>Email: info@cosmetics.ua</p>
+  </section>
+</section>
+
+</main>
+
+<footer>
+  <p>© 2025 Магазин косметики</p>
+</footer>
+
+<script src="../js/script.js"></script>
+<footer>
+  <div class="footer-content">
+    <p>&copy; 2025 Мій сайт. Всі права захищені.</p>
+    <p>Телефон: +38 (097) 123-45-67 | Email: info@example.com</p>
+  </div>
+</footer>
+</body>
+</html>
+
+
 
