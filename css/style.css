@@ -205,6 +205,21 @@ header nav ul li a.active,
   opacity: 1;
 }
 
+/* Стилі для посилань у мобільному меню */
+.mobile-menu li a {
+  text-decoration: none;  /* прибираємо підкреслення */
+  color: #333;            /* колір як у десктопного меню */
+  font-weight: bold;      /* жирний шрифт */
+  padding: 5px 10px;      /* відступи всередині */
+  border-radius: 5px;     /* округлення */
+}
+
+.mobile-menu li a:hover,
+.mobile-menu li a.active {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
 /* --- Футер --- */
 footer {
   background-color: #333;
@@ -267,4 +282,3 @@ footer p {
     padding: 10px;
   }
 }
-
