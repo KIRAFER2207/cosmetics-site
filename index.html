@@ -102,11 +102,20 @@
   </aside>
 
 <!-- Сторінки -->
-<section class="content">
-  <section id="home" class="page show">
+<section id="home" class="page show">
     <h2>Головна</h2>
     <p>Ласкаво просимо до нашого магазину косметики! Тут ви знайдете найкращі продукти для догляду за собою.</p>
-  </section>
+
+    <!-- Поле пошуку -->
+    <input id="product-search"
+           placeholder="Пошук товару за назвою..."
+           style="width:100%; margin-top:15px; padding:8px; border-radius:8px; border:1px solid #ccc;">
+    
+    <!-- Контейнер для товарів -->
+    <div id="products-container"
+         style="display:flex; flex-wrap:wrap; gap:15px; margin-top:20px;">
+    </div>
+</section>
 
   <section id="about" class="page">
     <h2>Про нас</h2>
@@ -134,6 +143,3 @@
 <script type="module" src="js/script.js"></script>
 </body>
 </html>
-
-
-
