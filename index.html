@@ -4,34 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Магазин косметики</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <header>
- <img src="https://e7.pngegg.com/pngimages/816/19/png-clipart-cosmetics-logo-product-brand-beauty-faberlic-kosmetika-face-text.png" alt="Логотип" class="logo">
-<div class="header-center">
- <h1>Магазин косметики</h1>
+  <img src="https://e7.pngegg.com/pngimages/816/19/png-clipart-cosmetics-logo-product-brand-beauty-faberlic-kosmetika-face-text.png" alt="Логотип" class="logo">
 
-  <!-- Бургер-кнопка -->
-  <div class="burger">
-    <span></span>
-    <span></span>
-    <span></span>
+<!-- Контейнер для сердечка, кнопки Увійти та повідомлення -->
+  <div class="user-controls" 
+       style="position:absolute; top:10px; right:10px; display:flex; align-items:flex-start; gap:15px;">
+
+    <!-- ❤️ СЕРДЕЧКО ДЛЯ КОРИСТУВАЧА -->
+  <div id="favourites-btn" class="fav-header-btn" 
+     style="font-size:26px; cursor:pointer; color:#e91e63; margin-top:4px; display:none;">
+    &#10084;
+</div>
+
+    <!-- Кнопка входу + текст -->
+    <div class="login-container" style="display:flex; flex-direction:column; align-items:flex-end;">
+        <button id="login-btn" class="login-btn">Увійти</button>
+        <p id="login-message" class="login-message" 
+           style="color:white; font-size:12px; margin:4px 0 0 0; white-space:nowrap;">
+            &nbsp;
+        </p>
+    </div>
+
   </div>
-  <!-- Меню -->
-  <nav>
-    <ul class="desktop-menu">
-      <li><a href="#" data-page="home">Головна</a></li>
-      <li><a href="#" data-page="about">Про нас</a></li>
-      <li><a href="#" data-page="contacts">Контакти</a></li>
-    </ul>
-    <ul class="mobile-menu">
-      <li><a href="#" data-page="home">Головна</a></li>
-      <li><a href="#" data-page="about">Про нас</a></li>
-      <li><a href="#" data-page="contacts">Контакти</a></li>
-    </ul>
-  </nav>
+    <!-- Спливаюче меню ролей -->
+    <div id="login-options" class="login-options">
+      <p>Увійти як:</p>
+      <button class="role-btn" data-role="user">Користувач</button>
+      <button class="role-btn" data-role="admin">Адміністратор</button>
+    </div>
+
+  <div class="header-center">
+    <h1 id="reset-filters-btn" style="cursor:pointer;">Магазин косметики</h1>
+
+    <!-- Бургер-кнопка -->
+    <div class="burger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <!-- Меню -->
+    <nav>
+      <ul class="desktop-menu">
+        <li><a href="#" data-page="home">Головна</a></li>
+        <li><a href="#" data-page="about">Про нас</a></li>
+        <li><a href="#" data-page="contacts">Контакти</a></li>
+      </ul>
+      <ul class="mobile-menu">
+        <li><a href="#" data-page="home">Головна</a></li>
+        <li><a href="#" data-page="about">Про нас</a></li>
+        <li><a href="#" data-page="contacts">Контакти</a></li>
+      </ul>
+    </nav>
 </header>
 
 <main class="main-container">
@@ -70,7 +98,7 @@
       <label><input type="checkbox" name="purpose" value="skin"> Для шкіри</label>
       <label><input type="checkbox" name="purpose" value="nails"> Для нігтів</label>
       <label><input type="checkbox" name="purpose" value="hair"> Для волосся</label>
-    </div>    
+    </div>   
   </aside>
 
 <!-- Сторінки -->
@@ -78,7 +106,6 @@
   <section id="home" class="page show">
     <h2>Головна</h2>
     <p>Ласкаво просимо до нашого магазину косметики! Тут ви знайдете найкращі продукти для догляду за собою.</p>
-<p class="coming-soon">Товарів ще немає, будь ласка, очікуйте...</p>
   </section>
 
   <section id="about" class="page">
@@ -86,7 +113,7 @@
     <p>Ми пропонуємо широкий асортимент натуральних та якісних продуктів. Наша мета – допомогти кожному знайти свій ідеальний продукт.</p>
   </section>
 
-  <section id="contacts" class="page">
+<section id="contacts" class="page">
     <h2>Контакти</h2>
     <p>Адреса: м. Київ, вул. Краси, 10</p>
     <p>Телефон: +380 99 123 45 67</p>
@@ -102,12 +129,7 @@
     <p>Телефон: +38 (097) 123-45-67 | Email: info@example.com</p>
   </div>
 </footer>
-  
-<script src="js/script.js"></script>
-</body>
+<!-- Панель улюблених товарів -->
+<div id="favourites-panel"></div>
+<script type="module" src="../js/script.js"></script></body>
 </html>
-
-
-
-
-
