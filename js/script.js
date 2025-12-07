@@ -5,6 +5,13 @@ import { getAuth, GoogleAuthProvider, signInWithPopup }
 if (!localStorage.getItem("products")) {
     localStorage.setItem("products", "[]");
 }
+// --- Якщо localStorage порожній — створюємо пустий список товарів ---
+if (!localStorage.getItem("products")) {
+    localStorage.setItem("products", "[]");
+}
+if (!localStorage.getItem("favourites")) {
+    localStorage.setItem("favourites", "[]");
+}
     from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -25,6 +32,7 @@ console.log("Firebase OK, JS завантажено!");
 window.userRole = localStorage.getItem("role") || "guest";
 
 document.addEventListener("DOMContentLoaded", function () {
+    restoreUserState();
     const loginBtn = document.getElementById("login-btn");
     const loginOptions = document.getElementById("login-options");
 
@@ -1358,4 +1366,5 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
 
