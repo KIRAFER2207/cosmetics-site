@@ -1,6 +1,10 @@
 // --- FIREBASE ІНІЦІАЛІЗАЦІЯ ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup }
+    // Якщо localStorage порожній — створюємо пустий масив товарів
+if (!localStorage.getItem("products")) {
+    localStorage.setItem("products", "[]");
+}
     from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -89,6 +93,13 @@ restoreUserState();
         if (oldBox) oldBox.remove();
 
         if (finalRole === "Адміністратор") {
+            setTimeout(() => {
+    const homeSection = document.getElementById("home");
+    const addBox = document.querySelector(".admin-add-box");
+    if (!addBox) {
+        homeSection.appendChild(createAddBox());
+    }
+}, 100);
             if (comingSoon) comingSoon.style.display = "none";
             productsContainer.appendChild(createAddBox());
         } else {
@@ -1347,3 +1358,4 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
