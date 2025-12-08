@@ -1323,6 +1323,3 @@ function restoreHeartsOnProducts() {
         });
     });
 }
-
-
-
