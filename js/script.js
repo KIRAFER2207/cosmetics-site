@@ -910,50 +910,6 @@ if (true) {
 }
     // Поле пошуку на головній
     const homeSection = document.getElementById("home");
-  // 🔍 Пошук товарів за назвою (по Enter)
-const searchBar = document.createElement("input");
-searchBar.placeholder = "Пошук товару за назвою...";
-searchBar.style.width = "100%";
-searchBar.style.marginTop = "15px";
-searchBar.style.padding = "8px";
-searchBar.style.borderRadius = "8px";
-searchBar.style.border = "1px solid #ccc";
-
-homeSection.insertBefore(searchBar, homeSection.firstChild);
-
-// ⬇ Пошук працює при натисканні Enter
-searchBar.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter") return;
-
-    const query = searchBar.value.trim().toLowerCase();
-
-    const all = JSON.parse(localStorage.getItem("products") || "[]");
-
-    // Фільтрація
-    const results = all.filter(p =>
-        p.title.toLowerCase().includes(query)
-    );
-
-    // Почистити старі картки
-    homeSection.querySelectorAll(".product-tile").forEach(el => el.remove());
-
-    // Якщо адміністратор — повернути кнопку "+"
-    const role = localStorage.getItem("role");
-    if (role === "Адміністратор") {
-        const old = homeSection.querySelector(".admin-add-box");
-        if (old) old.remove();
-        homeSection.appendChild(createAddBox());
-    }
-
-    // Вивести знайдені товари
-    results.forEach(product => {
-        createProductCard(product, homeSection);
-    });
-
-    // Повернути сердечка користувачу
-    restoreHeartsOnProducts();
-});
-
     // Кнопка під фільтрацією
 const filterSections = document.querySelectorAll(".filter-section");
 const lastFilterSection = filterSections[filterSections.length - 1];
@@ -1367,5 +1323,6 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
 
 
