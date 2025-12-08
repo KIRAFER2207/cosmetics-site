@@ -101,18 +101,19 @@ header nav ul li a.active,
 /* --- Основний контейнер --- */
 .main-container {
   display: flex;
-  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 20px;
   padding: 20px;
 }
 
 /* --- Лівий фільтр --- */
 .filter {
-  flex: 1;
-  max-width: 300px;
+  width: 250px;
+  min-width: 250px;
   background-color: #FFE4E1;
   padding: 20px;
   border-radius: 10px;
+  flex-shrink: 0;
 }
 
 .filter h2, .filter h3 {
@@ -471,3 +472,4 @@ header {
 }
 .status-dot.in-stock { background: green; }
 .status-dot.out-of-stock { background: red; }
+
