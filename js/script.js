@@ -292,6 +292,7 @@ saveBtn.addEventListener("click", () => {
 const index = saved.length - 1;
 
     createProductCard(product);
+    activateHeartIcons();
 
     // повертаємо "+"
     let addBox = homeSection.querySelector(".admin-add-box");
@@ -630,7 +631,7 @@ function createProductForm(homeSection, isEditing = false) {
 
         // додаємо картку на головну
         createProductCard(product);
-
+activateHeartIcons();
         // закриваємо форму
         formContainer.remove();
 
@@ -1366,5 +1367,6 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
 
 
