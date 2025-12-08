@@ -459,7 +459,8 @@ if (true) {
         alert("Товар оновлено!");
     };
 }
-   
+    // Поле пошуку на головній
+    const homeSection = document.getElementById("home");
     // Кнопка під фільтрацією
 const filterSections = document.querySelectorAll(".filter-section");
 const lastFilterSection = filterSections[filterSections.length - 1];
@@ -873,6 +874,7 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
 
 
 
