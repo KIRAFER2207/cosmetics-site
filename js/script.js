@@ -59,9 +59,37 @@ loginContainer.insertBefore(loginMessage, loginBtn);
     loginOptions.style.display = "none";
 
     // Клік на кнопку "Увійти"
-    loginBtn.addEventListener("click", () => {
-        loginOptions.style.display = loginOptions.style.display === "flex" ? "none" : "flex";
-    });
+    loginBtn.addEventListener("click", async () => {
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        console.log("Успішний вхід:", user.email);
+
+        // Перевірка на адміністратора
+        const adminEmails = [
+            "admin@gmail.com",
+            "your-admin@mail.com"
+        ];
+
+        let role = adminEmails.includes(user.email)
+            ? "Адміністратор"
+            : "Користувач";
+
+        localStorage.setItem("role", role);
+        localStorage.setItem("userEmail", user.email);
+
+        restoreUserState();
+        reRenderAllProducts();
+
+        alert(`Ви увійшли як: ${role}`);
+
+    } catch (error) {
+        console.error("Помилка при вході:", error);
+        alert("Не вдалося увійти через Google");
+    }
+});
+
 
    // Клік на кнопки ролей
 const roleButtons = document.querySelectorAll(".role-btn");
@@ -1323,3 +1351,4 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
