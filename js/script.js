@@ -208,8 +208,6 @@ function openProductModal(product, productBlock) {
     });
     document.body.appendChild(modal);
 }
-
-// Гарантуємо наявність контейнера для товарів
 let productsContainer;
 function ensureProductsContainer() {
     const home = document.getElementById("home");
@@ -876,5 +874,6 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
 
 
