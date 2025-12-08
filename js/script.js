@@ -1,17 +1,6 @@
 // --- FIREBASE ІНІЦІАЛІЗАЦІЯ ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup }
-    // Якщо localStorage порожній — створюємо пустий масив товарів
-if (!localStorage.getItem("products")) {
-    localStorage.setItem("products", "[]");
-}
-// --- Якщо localStorage порожній — створюємо пустий список товарів ---
-if (!localStorage.getItem("products")) {
-    localStorage.setItem("products", "[]");
-}
-if (!localStorage.getItem("favourites")) {
-    localStorage.setItem("favourites", "[]");
-}
+import { getAuth, GoogleAuthProvider, signInWithPopup } 
     from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -28,11 +17,20 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-console.log("Firebase OK, JS завантажено!");
+console.log("JS підключено!");
+
 window.userRole = localStorage.getItem("role") || "guest";
 
+// --- Якщо localStorage порожній — створюємо пустий список товарів ---
+if (!localStorage.getItem("products")) {
+    localStorage.setItem("products", "[]");
+}
+if (!localStorage.getItem("favourites")) {
+    localStorage.setItem("favourites", "[]");
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
-    restoreUserState();
     const loginBtn = document.getElementById("login-btn");
     const loginOptions = document.getElementById("login-options");
 
@@ -101,7 +99,7 @@ restoreUserState();
         if (oldBox) oldBox.remove();
 
         if (finalRole === "Адміністратор") {
-            setTimeout(() => {
+setTimeout(() => {
     const homeSection = document.getElementById("home");
     const addBox = document.querySelector(".admin-add-box");
     if (!addBox) {
@@ -136,6 +134,7 @@ restoreUserState();
             return addBox;
         }
     });
+restoreUserState();
 });
 
 function createProductForm(homeSection, isEditing = false) {
@@ -292,7 +291,7 @@ saveBtn.addEventListener("click", () => {
 const index = saved.length - 1;
 
     createProductCard(product);
-    activateHeartIcons();
+activateHeartIcons();
 
     // повертаємо "+"
     let addBox = homeSection.querySelector(".admin-add-box");
@@ -632,6 +631,7 @@ function createProductForm(homeSection, isEditing = false) {
         // додаємо картку на головну
         createProductCard(product);
 activateHeartIcons();
+
         // закриваємо форму
         formContainer.remove();
 
@@ -1367,6 +1367,3 @@ function restoreHeartsOnProducts() {
         });
     });
 }
-
-
-
