@@ -55,7 +55,6 @@ loginContainer.insertBefore(loginMessage, loginBtn);
     // Початковий стан
     localStorage.removeItem("role");
     loginBtn.style.display = "block";
-    loginOptions.style.display = "none";
 
     // Клік на кнопку "Увійти"
     loginBtn.addEventListener("click", async () => {
@@ -89,34 +88,12 @@ loginContainer.insertBefore(loginMessage, loginBtn);
     }
 });
 
-        /* ❤️ ПОКАЗАТИ СЕРДЕЧКО ЛИШЕ ДЛЯ КОРИСТУВАЧА */
-        const favBtn = document.getElementById("favourites-btn");
-        if (finalRole === "Користувач") {
-            favBtn.style.display = "block";
-        } else {
-            favBtn.style.display = "none";
-        }
-
         const homeSection = document.getElementById("home");
         const comingSoon = homeSection.querySelector(".coming-soon");
 
         // Видаляємо старий прямокутник, якщо він є
         const oldBox = document.querySelector(".admin-add-box");
         if (oldBox) oldBox.remove();
-
-        if (finalRole === "Адміністратор") {
-setTimeout(() => {
-    const homeSection = document.getElementById("home");
-    const addBox = document.querySelector(".admin-add-box");
-    if (!addBox) {
-        homeSection.appendChild(createAddBox());
-    }
-}, 100);
-            if (comingSoon) comingSoon.style.display = "none";
-            productsContainer.appendChild(createAddBox());
-        } else {
-            if (comingSoon) comingSoon.style.display = "block";
-        }
 
         function createAddBox() {
             const addBox = document.createElement("div");
@@ -483,8 +460,6 @@ function openProductModal(product, productBlock) {
 }
         });
 
-// ======= Потрібно вставити цей блок ПЕРЕД рештою викликів/використанням createProductForm =======
-
 // Гарантуємо наявність контейнера для товарів
 let productsContainer;
 function ensureProductsContainer() {
@@ -697,7 +672,6 @@ function createProductCard(product) {
     card.style.boxShadow = "0 3px 10px rgba(0,0,0,0.1)";
 
 // --- Сердечко для КОРИСТУВАЧА ---
-const role = localStorage.getItem("role");
 if (role === "Користувач") {
 
     const heart = document.createElement("div");
@@ -1329,5 +1303,6 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
 
 
