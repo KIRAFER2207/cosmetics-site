@@ -88,8 +88,6 @@ loginContainer.insertBefore(loginMessage, loginBtn);
         // Видаляємо старий прямокутник, якщо він є
         const oldBox = document.querySelector(".admin-add-box");
         if (oldBox) oldBox.remove();
-
-    });
 restoreUserState();
 });
 
@@ -879,3 +877,4 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
