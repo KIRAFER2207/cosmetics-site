@@ -32,7 +32,6 @@ if (!localStorage.getItem("favourites")) {
 
 document.addEventListener("DOMContentLoaded", function () {
     const loginBtn = document.getElementById("login-btn");
-    const loginOptions = document.getElementById("login-options");
 
     // Створюємо контейнер для кнопки + повідомлення
     let loginContainer = document.createElement("div");
@@ -90,27 +89,6 @@ loginContainer.insertBefore(loginMessage, loginBtn);
     }
 });
 
-
-   // Клік на кнопки ролей
-const roleButtons = document.querySelectorAll(".role-btn");
-roleButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        loginOptions.style.display = "none";
-        const login = prompt("Введіть логін:");
-        const password = prompt("Введіть пароль:");
-
-        let finalRole;
-        if (login === "admin" && password === "12345") {
-            finalRole = "Адміністратор";
-        } else {
-            finalRole = "Користувач";
-        }
-
-        localStorage.setItem("role", finalRole);
-        loginMessage.textContent = `Ви увійшли як ${finalRole}`;
-// 🔥 ПЕРЕЗБЕРЕМО ВСІ ТОВАРИ ДЛЯ ПОКАЗУ СЕРДЕЧОК
-reRenderAllProducts();
-restoreUserState();
         /* ❤️ ПОКАЗАТИ СЕРДЕЧКО ЛИШЕ ДЛЯ КОРИСТУВАЧА */
         const favBtn = document.getElementById("favourites-btn");
         if (finalRole === "Користувач") {
@@ -1351,4 +1329,5 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
 
