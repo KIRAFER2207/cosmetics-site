@@ -89,7 +89,7 @@ loginContainer.insertBefore(loginMessage, loginBtn);
         const oldBox = document.querySelector(".admin-add-box");
         if (oldBox) oldBox.remove();
 restoreUserState();
-});
+
 
 // Окрема функція модалки
 function openProductModal(product, productBlock) {
@@ -874,6 +874,7 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
 
 
 
