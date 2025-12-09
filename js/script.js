@@ -505,128 +505,87 @@ links.forEach(link => {
         createProductCard(p, homeSection);
     });
 })();
-function createAddBox() {
-    const box = document.createElement("div");
-    box.className = "admin-add-box";
-    box.textContent = "+";
-    box.style.width = "150px";
-    box.style.height = "200px";
-    box.style.border = "2px dashed #DC143C";
-    box.style.borderRadius = "12px";
-    box.style.display = "flex";
-    box.style.justifyContent = "center";
-    box.style.alignItems = "center";
-    box.style.fontSize = "40px";
-    box.style.color = "#DC143C";
-    box.style.cursor = "pointer";
-    box.style.margin = "10px";
+function createAddBox(homeSection) {
+    let addBox = document.createElement("div");
+    addBox.className = "admin-add-box";
 
-    box.addEventListener("click", () => {
-        openAddProductForm();
+    addBox.style.width = "120px";
+    addBox.style.height = "120px";
+    addBox.style.border = "2px dashed #fff";
+    addBox.style.borderRadius = "12px";
+    addBox.style.display = "flex";
+    addBox.style.alignItems = "center";
+    addBox.style.justifyContent = "center";
+    addBox.style.cursor = "pointer";
+    addBox.style.fontSize = "48px";
+    addBox.style.color = "#fff";
+    addBox.textContent = "+";
+
+    addBox.addEventListener("click", () => {
+        addBox.remove();
+        createProductForm(homeSection);
     });
 
-    return box;
+    return addBox;
 }
+function createProductForm(homeSection) {
+    const formContainer = document.createElement("div");
+    formContainer.className = "product-form-container";
 
-function createProductForm(product = null, onSave) {
-    const modal = document.createElement("div");
-    modal.style.position = "fixed";
-    modal.style.top = "0";
-    modal.style.left = "0";
-    modal.style.width = "100%";
-    modal.style.height = "100%";
-    modal.style.background = "rgba(0,0,0,0.6)";
-    modal.style.display = "flex";
-    modal.style.justifyContent = "center";
-    modal.style.alignItems = "center";
-    modal.style.zIndex = "1000";
+    formContainer.innerHTML = `
+        <input name="title" placeholder="Назва товару">
+        <input name="price" placeholder="Ціна">
+        <input name="brand" placeholder="Бренд">
+        <input name="purpose" placeholder="Призначення">
+        <textarea name="description" placeholder="Опис"></textarea>
+        <textarea name="features" placeholder="Особливості"></textarea>
+        <input name="code" placeholder="Код">
 
-    const box = document.createElement("div");
-    box.style.background = "#fff";
-    box.style.padding = "20px";
-    box.style.borderRadius = "12px";
-    box.style.width = "320px";
-    box.style.display = "flex";
-    box.style.flexDirection = "column";
-    box.style.gap = "10px";
+        <button class="save-product-btn">Зберегти</button>
+        <button class="cancel-btn">Скасувати</button>
+    `;
 
-    const titleInput = document.createElement("input");
-    titleInput.placeholder = "Назва товару";
-    titleInput.value = product?.title || "";
+    homeSection.appendChild(formContainer);
 
-    const brandInput = document.createElement("input");
-    brandInput.placeholder = "Бренд";
-    brandInput.value = product?.brand || "";
+    // кнопка скасувати
+    formContainer.querySelector(".cancel-btn").addEventListener("click", () => {
+        formContainer.remove();
+        homeSection.appendChild(createAddBox(homeSection));
+    });
 
-    const priceInput = document.createElement("input");
-    priceInput.placeholder = "Ціна";
-    priceInput.value = product?.price || "";
+    // кнопка зберегти
+    formContainer.querySelector(".save-product-btn").addEventListener("click", () => {
 
-    const purposeInput = document.createElement("input");
-    purposeInput.placeholder = "Призначення";
-    purposeInput.value = product?.purpose || "";
-
-    const descriptionInput = document.createElement("input");
-    descriptionInput.placeholder = "Опис";
-    descriptionInput.value = product?.description || "";
-
-    const imageInput = document.createElement("input");
-    imageInput.placeholder = "URL зображення";
-    imageInput.value = product?.image || "";
-
-    const saveBtn = document.createElement("button");
-    saveBtn.textContent = "Зберегти";
-    saveBtn.style.background = "#28a745";
-    saveBtn.style.color = "#fff";
-    saveBtn.style.padding = "8px";
-    saveBtn.style.borderRadius = "6px";
-
-    saveBtn.addEventListener("click", () => {
-        const newProduct = {
-            code: product?.code || Date.now().toString(),
-            title: titleInput.value,
-            brand: brandInput.value,
-            price: priceInput.value,
-            purpose: purposeInput.value,
-            description: descriptionInput.value,
-            image: imageInput.value
+        const product = {
+            title: formContainer.querySelector('[name="title"]').value.trim(),
+            price: formContainer.querySelector('[name="price"]').value.trim(),
+            brand: formContainer.querySelector('[name="brand"]').value.trim(),
+            purpose: formContainer.querySelector('[name="purpose"]').value.trim(),
+            description: formContainer.querySelector('[name="description"]').value.trim(),
+            features: formContainer.querySelector('[name="features"]').value.trim(),
+            code: formContainer.querySelector('[name="code"]').value.trim(),
+            image: formContainer.dataset.pastedImage || "",
+            inStock: true
         };
 
-        onSave(newProduct);
-        modal.remove();
-    });
+        if (!product.title) {
+            alert("Вкажіть назву.");
+            return;
+        }
 
-    const cancelBtn = document.createElement("button");
-    cancelBtn.textContent = "Скасувати";
-    cancelBtn.style.padding = "8px";
-    cancelBtn.style.borderRadius = "6px";
-
-    cancelBtn.addEventListener("click", () => modal.remove());
-
-    box.append(
-        titleInput,
-        brandInput,
-        priceInput,
-        purposeInput,
-        descriptionInput,
-        imageInput,
-        saveBtn,
-        cancelBtn
-    );
-
-    modal.appendChild(box);
-    return modal;
-}
-
-function openAddProductForm() {
-    const form = createProductForm(null, (newProduct) => {
+        // Зберігаємо у localStorage
         const list = JSON.parse(localStorage.getItem("products") || "[]");
-        list.push(newProduct);
+        list.push(product);
         localStorage.setItem("products", JSON.stringify(list));
-        location.reload();
+
+        // Додати на сайт
+        createProductCard(product, homeSection);
+
+        formContainer.remove();
+        homeSection.appendChild(createAddBox(homeSection));
     });
-    document.body.appendChild(form);
 }
+
 
 restoreUserState();
 function openProductPage(product) {
@@ -1004,6 +963,7 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
 
 
 
