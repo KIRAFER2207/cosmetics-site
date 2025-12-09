@@ -868,7 +868,11 @@ function restoreHeartsOnProducts() {
 
             localStorage.setItem("favourites", JSON.stringify(list));
         });
-    });
+    }); // <-- закриває forEach
+
+} // <-- ОЦЯ дужка закриває функцію restoreHeartsOnProducts
+
+// Тепер слухач кнопки логаута (впевнись, що logoutBtn існує у DOM)
 logoutBtn.addEventListener("click", () => {
     localStorage.removeItem("role");
     localStorage.removeItem("userEmail");
@@ -878,3 +882,5 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
+
