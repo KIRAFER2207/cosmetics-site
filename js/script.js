@@ -33,6 +33,7 @@ if (!localStorage.getItem("favourites")) {
 
 document.addEventListener("DOMContentLoaded", function () {
     const loginBtn = document.getElementById("login-btn");
+
     // Створюємо контейнер для кнопки + повідомлення
     let loginContainer = document.createElement("div");
     loginContainer.style.display = "flex";
@@ -44,42 +45,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Клік на кнопку "Увійти"
     loginBtn.addEventListener("click", async () => {
-    try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
 
-        console.log("Успішний вхід:", user.email);
+            console.log("Успішний вхід:", user.email);
 
-        // Перевірка на адміністратора
-        const adminEmails = [
-            "ferchuk@s12.pp.ua",
-        ];
+            const adminEmails = ["ferchuk@s12.pp.ua"];
 
-        let role = adminEmails.includes(user.email)
-            ? "Адміністратор"
-            : "Користувач";
+            let role = adminEmails.includes(user.email)
+                ? "Адміністратор"
+                : "Користувач";
 
-        localStorage.setItem("role", role);
-        localStorage.setItem("userEmail", user.email);
+            localStorage.setItem("role", role);
+            localStorage.setItem("userEmail", user.email);
 
-        reRenderAllProducts();
+            reRenderAllProducts();
+            alert(`Ви увійшли як: ${role}`);
 
-        alert(`Ви увійшли як: ${role}`);
+        } catch (error) {
+            console.error("Помилка при вході:", error);
+            alert("Не вдалося увійти через Google");
+        }
+    }); // ✅ ОСЬ ЦЕ — ВАЖЛИВА ДУЖКА
 
-    } catch (error) {
-        console.error("Помилка при вході:", error);
-        alert("Не вдалося увійти через Google");
-    }
-});
+    const homeSection = document.getElementById("home");
+    const comingSoon = homeSection.querySelector(".coming-soon");
 
-        const homeSection = document.getElementById("home");
-        const comingSoon = homeSection.querySelector(".coming-soon");
+    // Видаляємо старий прямокутник, якщо він є
+    const oldBox = document.querySelector(".admin-add-box");
+    if (oldBox) oldBox.remove();
 
-        // Видаляємо старий прямокутник, якщо він є
-        const oldBox = document.querySelector(".admin-add-box");
-        if (oldBox) oldBox.remove();
-restoreUserState();
-});
+    restoreUserState();
+}); // ✅ ЗАКРИТТЯ DOMContentLoaded
+
 
 // Окрема функція модалки
 function openProductModal(product, productBlock) {
@@ -882,5 +881,6 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
 
 
