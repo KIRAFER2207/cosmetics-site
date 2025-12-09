@@ -869,7 +869,12 @@ function restoreHeartsOnProducts() {
             localStorage.setItem("favourites", JSON.stringify(list));
         });
     });
-    logoutBtn.addEventListener("click", () => {
-}
+logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("role");
+    localStorage.removeItem("userEmail");
 
+    auth.signOut().catch(() => {});
 
+    alert("Ви вийшли з акаунту!");
+    location.reload();
+});
