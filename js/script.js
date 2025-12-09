@@ -2,7 +2,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup } 
     from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-const logoutBtn = document.getElementById("logout-btn");
 
 const firebaseConfig = {
     apiKey: "AIzaSyBpNbHDyOJhQ1tku6w8CbKszS2IEpe-baY",
@@ -31,7 +30,7 @@ if (!localStorage.getItem("favourites")) {
 
 document.addEventListener("DOMContentLoaded", function () {
     const loginBtn = document.getElementById("login-btn");
-
+    const logoutBtn = document.getElementById("logout-btn");
     // Створюємо контейнер для кнопки + повідомлення
     let loginContainer = document.createElement("div");
     loginContainer.style.display = "flex";
@@ -711,6 +710,12 @@ function restoreUserState() {
     const favBtn = document.getElementById("favourites-btn");
 
     if (!role) return;
+// Показати/приховати кнопку "Вийти"
+if (role === "Користувач" || role === "Адміністратор") {
+    logoutBtn.style.display = "block";
+} else {
+    logoutBtn.style.display = "none";
+}
 
     // Відновлюємо текст “ви увійшли як…”
     loginMessage.textContent = `Ви увійшли як ${role}`;
@@ -873,15 +878,14 @@ function restoreHeartsOnProducts() {
             localStorage.setItem("favourites", JSON.stringify(list));
         });
     });
+    logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("role");
+    localStorage.removeItem("userEmail");
+
+    auth.signOut().catch(() => {});
+
+    alert("Ви вийшли з акаунту!");
+    location.reload();
+});
+
 }
-
-
-
-
-
-
-
-
-
-
-
