@@ -528,6 +528,7 @@ function createAddBox(homeSection) {
 
     return addBox;
 }
+
 function createProductForm(homeSection) {
     const formContainer = document.createElement("div");
     formContainer.className = "product-form-container";
@@ -547,13 +548,11 @@ function createProductForm(homeSection) {
 
     homeSection.appendChild(formContainer);
 
-    // кнопка скасувати
     formContainer.querySelector(".cancel-btn").addEventListener("click", () => {
         formContainer.remove();
         homeSection.appendChild(createAddBox(homeSection));
     });
 
-    // кнопка зберегти
     formContainer.querySelector(".save-product-btn").addEventListener("click", () => {
 
         const product = {
@@ -573,18 +572,61 @@ function createProductForm(homeSection) {
             return;
         }
 
-        // Зберігаємо у localStorage
+        // Зберегти в localStorage
         const list = JSON.parse(localStorage.getItem("products") || "[]");
         list.push(product);
         localStorage.setItem("products", JSON.stringify(list));
 
-        // Додати на сайт
         createProductCard(product, homeSection);
 
         formContainer.remove();
         homeSection.appendChild(createAddBox(homeSection));
     });
 }
+function openEditForm(product, cardElement) {
+    const homeSection = document.getElementById("home");
+
+    const oldForm = document.querySelector(".product-form-container");
+    if (oldForm) oldForm.remove();
+
+    const form = createProductForm(homeSection, true);
+
+    // заповнення
+    form.querySelector('[name="title"]').value = product.title;
+    form.querySelector('[name="price"]').value = product.price;
+    form.querySelector('[name="brand"]').value = product.brand;
+    form.querySelector('[name="purpose"]').value = product.purpose;
+    form.querySelector('[name="description"]').value = product.description;
+    form.querySelector('[name="features"]').value = product.features;
+    form.querySelector('[name="code"]').value = product.code;
+
+    const saveBtn = form.querySelector(".save-product-btn");
+    saveBtn.textContent = "Оновити товар";
+
+    saveBtn.onclick = () => {
+        // оновити localStorage
+        const all = JSON.parse(localStorage.getItem("products") || "[]");
+        const idx = all.findIndex(p => p.code === product.code);
+
+        product.title = form.querySelector('[name="title"]').value.trim();
+        product.price = form.querySelector('[name="price"]').value.trim();
+        product.brand = form.querySelector('[name="brand"]').value.trim();
+        product.purpose = form.querySelector('[name="purpose"]').value.trim();
+        product.description = form.querySelector('[name="description"]').value.trim();
+        product.features = form.querySelector('[name="features"]').value.trim();
+
+        all[idx] = product;
+        localStorage.setItem("products", JSON.stringify(all));
+
+        // оновити картку
+        cardElement.querySelector(".product-title").textContent = product.title;
+        cardElement.querySelector("img").src = product.image || "";
+
+        form.remove();
+        alert("Товар оновлено!");
+    };
+}
+
 
 
 restoreUserState();
@@ -963,6 +1005,7 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
 
 
 
