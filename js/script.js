@@ -225,6 +225,7 @@ function ensureProductsContainer() {
 
 // === createProductCard and openEditForm (виправлені) ===
 function createProductCard(product) {
+    const role = localStorage.getItem("role");
     ensureProductsContainer();
 
     const card = document.createElement("div");
@@ -873,6 +874,7 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
 
 
 
