@@ -16,6 +16,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+const loginBtn = document.getElementById("login-btn");
+const logoutBtn = document.getElementById("logout-btn");
+const loginMessage = document.getElementById("login-message");
 
 console.log("JS підключено!");
 
@@ -30,7 +33,6 @@ if (!localStorage.getItem("favourites")) {
 
 document.addEventListener("DOMContentLoaded", function () {
     const loginBtn = document.getElementById("login-btn");
-    const logoutBtn = document.getElementById("logout-btn");
     // Створюємо контейнер для кнопки + повідомлення
     let loginContainer = document.createElement("div");
     loginContainer.style.display = "flex";
@@ -869,4 +871,5 @@ function restoreHeartsOnProducts() {
     });
     logoutBtn.addEventListener("click", () => {
 }
+
 
