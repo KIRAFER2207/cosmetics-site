@@ -2,6 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup } 
     from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+const logoutBtn = document.getElementById("logout-btn");
 
 const firebaseConfig = {
     apiKey: "AIzaSyBpNbHDyOJhQ1tku6w8CbKszS2IEpe-baY",
@@ -873,6 +874,7 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
 
 
 
