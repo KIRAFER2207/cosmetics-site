@@ -635,29 +635,6 @@ function createProductForm(homeSection, isEdit = false) {
 
     return form;
 }
-function createAddBox(homeSection) {
-    let addBox = document.createElement("div");
-    addBox.className = "admin-add-box";
-
-    addBox.style.width = "120px";
-    addBox.style.height = "120px";
-    addBox.style.border = "2px dashed #fff";
-    addBox.style.borderRadius = "12px";
-    addBox.style.display = "flex";
-    addBox.style.alignItems = "center";
-    addBox.style.justifyContent = "center";
-    addBox.style.cursor = "pointer";
-    addBox.style.fontSize = "48px";
-    addBox.style.color = "#fff";
-    addBox.textContent = "+";
-
-    addBox.addEventListener("click", () => {
-        addBox.remove();
-        createProductForm(homeSection, false);
-    });
-
-    return addBox;
-}
 
 restoreUserState();
 function openProductPage(product) {
@@ -1035,6 +1012,7 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
 
 
 
