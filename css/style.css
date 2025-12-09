@@ -359,59 +359,117 @@ header {
 }
 /* Прямокутник для додавання товарів (адмін) */
 .admin-add-box {
-    width: 200px;
-    height: 150px;
-    border: 2px dashed #aaa;
+    width: 180px;
+    height: 140px;
+    border: 2px dashed #ff6b81;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
+    margin: 20px 0;
     cursor: pointer;
-    background-color: #f9f9f9;
-    transition: background-color 0.2s, border-color 0.2s;
+    background-color: #fff7f7;
+    transition: 0.3s;
 }
 
 .admin-add-box:hover {
-    background-color: #f0f0f0;
-    border-color: #888;
+    background-color: #ffe2e6;
+    border-color: #ff3b63;
 }
 
 .admin-add-box span {
-    font-size: 36px;
-    color: #555;
-}
-.product-form-container {
-    background: #222;
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin-top: 15px;
+    font-size: 42px;
+    color: #ff3b63;
+    font-weight: bold;
 }
 
+/* === Адмін: форма додавання/редагування товару === */
+.product-form-container {
+    background: #fff; 
+    color: #333;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Поля форми */
 .product-form-container input,
 .product-form-container select,
 .product-form-container textarea {
     width: 100%;
-    margin-bottom: 10px;
-    padding: 5px;
-    border-radius: 5px;
-}
-
-.product-form-container button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.product-block {
-    background: #333;
-    color: white;
+    margin-bottom: 12px;
     padding: 10px;
-    margin-top: 10px;
-    border-radius: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background: white;
+    color: #333;
+    box-sizing: border-box;
+}
+
+/* Поле для фото */
+.product-form-container input[type="file"] {
+    padding: 8px;
+    background: #fff0f5;
+    border: 1px dashed #ff6b81;
+}
+
+/* Кнопки */
+.product-form-container button {
+    padding: 10px 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+/* Зберегти */
+.save-btn {
+    background-color: #e91e63;
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: #c2185b;
+}
+
+/* Скасувати */
+.cancel-btn {
+    background-color: #ddd;
+    color: #333;
+}
+
+.cancel-btn:hover {
+    background-color: #bbb;
+}
+
+/* Видалити товар */
+.delete-btn {
+    background-color: #ff4d4d;
+    color: white;
+    margin-left: 10px;
+}
+
+.delete-btn:hover {
+    background-color: #d93636;
+}
+.product-block {
+    background: #ffe4e6;
+    color: #333;
+    padding: 12px;
+    border-radius: 12px;
+    margin-top: 12px;
     position: relative;
+}
+
+.product-block img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 .status-dot {
@@ -490,6 +548,7 @@ header {
 }
 .status-dot.in-stock { background: green; }
 .status-dot.out-of-stock { background: red; }
+
 
 
 
