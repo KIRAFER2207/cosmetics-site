@@ -236,19 +236,22 @@ function createProductForm(homeSection, isEdit = false) {
         <label>Бренд:</label>
         <select name="brand">
             <option value="">—</option>
-            <option value="Loreal">L'Oreal</option>
-            <option value="Maybelline">Maybelline</option>
-            <option value="Nyx">NYX</option>
-            <option value="Catrice">Catrice</option>
+            <option value="LuxeBeauty">LuxeBeauty</option>
+            <option value="GlowUp">GlowUp</option>
+            <option value="NaturalCare">NaturalCare</option>
+            <option value="BellaCosmetics">BellaCosmetics</option>
+            <option value="SkinEssence">SkinEssence</option>
+            <option value="HairMagic">HairMagic</option>
         </select>
 
         <label>Призначення:</label>
         <select name="purpose">
             <option value="">—</option>
-            <option value="Тон">Тон</option>
-            <option value="Губи">Губи</option>
-            <option value="Брови">Брови</option>
-            <option value="Вії">Вії</option>
+            <option value="Для очей">Для очей</option>
+            <option value="Для тіла">Для тіла</option>
+            <option value="Для шкіри">Для шкіри</option>
+            <option value=" Для нігтів"> Для нігтів</option>
+              <option value="Для волосся">Для волосся</option>
         </select>
 
         <label>Опис:</label>
@@ -987,6 +990,7 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
 
 
 
