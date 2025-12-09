@@ -211,6 +211,147 @@ function ensureProductsContainer() {
         home.appendChild(productsContainer);
     }
 }
+function createProductForm(homeSection, isEdit = false) {
+    const formContainer = document.createElement("div");
+    formContainer.className = "product-form-container";
+    formContainer.style.background = "#222";
+    formContainer.style.color = "white";
+    formContainer.style.padding = "15px";
+    formContainer.style.borderRadius = "10px";
+    formContainer.style.marginTop = "15px";
+
+    formContainer.innerHTML = `
+        <label>Назва:</label>
+        <input type="text" name="title">
+
+        <label>Ціна:</label>
+        <input type="number" name="price">
+
+        <label>Наявність:</label>
+        <select name="inStock">
+            <option value="yes">В наявності</option>
+            <option value="no">Немає в наявності</option>
+        </select>
+
+        <label>Бренд:</label>
+        <select name="brand">
+            <option value="">—</option>
+            <option value="Loreal">L'Oreal</option>
+            <option value="Maybelline">Maybelline</option>
+            <option value="Nyx">NYX</option>
+            <option value="Catrice">Catrice</option>
+        </select>
+
+        <label>Призначення:</label>
+        <select name="purpose">
+            <option value="">—</option>
+            <option value="Тон">Тон</option>
+            <option value="Губи">Губи</option>
+            <option value="Брови">Брови</option>
+            <option value="Вії">Вії</option>
+        </select>
+
+        <label>Опис:</label>
+        <textarea name="description" rows="3"></textarea>
+
+        <label>Характеристики:</label>
+        <textarea name="features" rows="3"></textarea>
+
+        <label>Код товару:</label>
+        <input type="text" name="code">
+
+        <label>Фото:</label>
+        <input type="file" id="img-input" accept="image/*">
+
+        <img id="preview-img" style="width:120px; height:120px; object-fit:cover; 
+             border-radius:8px; display:none; margin-top:10px;">
+
+        <button class="save-product-btn" 
+            style="margin-top:15px; padding:10px; width:100%; background:#28a745; 
+            border:none; color:white; border-radius:6px; cursor:pointer;">
+            ${isEdit ? "Оновити товар" : "Додати товар"}
+        </button>
+    `;
+
+    // --- Попередній перегляд зображення ---
+    const fileInput = formContainer.querySelector("#img-input");
+    const preview = formContainer.querySelector("#preview-img");
+
+    fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            preview.src = reader.result;
+            preview.style.display = "block";
+            formContainer.dataset.pastedImage = reader.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    return formContainer;
+}
+function createAddBox() {
+    const addBox = document.createElement("div");
+    addBox.className = "admin-add-box";
+    addBox.style.width = "120px";
+    addBox.style.height = "120px";
+    addBox.style.border = "2px dashed #fff";
+    addBox.style.borderRadius = "12px";
+    addBox.style.display = "flex";
+    addBox.style.alignItems = "center";
+    addBox.style.justifyContent = "center";
+    addBox.style.cursor = "pointer";
+    addBox.style.fontSize = "48px";
+    addBox.style.color = "#fff";
+    addBox.textContent = "+";
+
+    addBox.addEventListener("click", () => {
+        const homeSection = document.getElementById("home");
+
+        // Прибрати стару форму, якщо вона є
+        const oldForm = document.querySelector(".product-form-container");
+        if (oldForm) oldForm.remove();
+
+        addBox.remove(); // тимчасово прибираємо "+"
+        const form = createProductForm(homeSection);
+        homeSection.appendChild(form);
+
+        // --- Кнопка збереження ---
+        const saveBtn = form.querySelector(".save-product-btn");
+        saveBtn.addEventListener("click", () => {
+            const product = {
+                title: form.querySelector('[name="title"]').value.trim(),
+                price: form.querySelector('[name="price"]').value.trim(),
+                inStock: form.querySelector('[name="inStock"]').value,
+                brand: form.querySelector('[name="brand"]').value,
+                purpose: form.querySelector('[name="purpose"]').value,
+                description: form.querySelector('[name="description"]').value.trim(),
+                features: form.querySelector('[name="features"]').value.trim(),
+                code: form.querySelector('[name="code"]').value,
+                image: form.dataset.pastedImage || ""
+            };
+
+            if (!product.title) {
+                alert("Вкажіть назву товару!");
+                return;
+            }
+
+            const saved = JSON.parse(localStorage.getItem("products") || "[]");
+            saved.push(product);
+            localStorage.setItem("products", JSON.stringify(saved));
+
+            // додати картку
+            createProductCard(product);
+
+            form.remove();
+            document.getElementById("products-container").appendChild(createAddBox());
+        });
+    });
+
+    return addBox;
+}
 
 // === createProductCard and openEditForm (виправлені) ===
 function createProductCard(product) {
@@ -319,14 +460,14 @@ if (role === "Користувач") {
 function openEditForm(product, cardElement) {
     const homeSection = document.getElementById("home");
 
-    // прибираємо існуючу форму (якщо є)
+    // Прибрати попередню форму якщо вона є
     const oldForm = document.querySelector(".product-form-container");
     if (oldForm) oldForm.remove();
 
-    // створюємо форму в режимі редагування
+    // Створити форму редагування
     const form = createProductForm(homeSection, true);
 
-    // заповнюємо поля
+    // Заповнення значень
     form.querySelector('[name="title"]').value = product.title || "";
     form.querySelector('[name="price"]').value = product.price || "";
     form.querySelector('[name="inStock"]').value = product.inStock || "yes";
@@ -336,19 +477,50 @@ function openEditForm(product, cardElement) {
     form.querySelector('[name="features"]').value = product.features || "";
     form.querySelector('[name="code"]').value = product.code || "";
 
+    // Показати зображення, якщо є
     if (product.image) {
         const prev = form.querySelector("#preview-img");
-        prev.src = product.image;
-        prev.style.display = "block";
+        if (prev) {
+            prev.src = product.image;
+            prev.style.display = "block";
+        }
         form.dataset.pastedImage = product.image;
     }
 
-    // змінюємо текст кнопки збереження
+    // --- Кнопка "Оновити товар" ---
     const saveBtn = form.querySelector(".save-product-btn");
     saveBtn.textContent = "Оновити товар";
+    saveBtn.style.background = "#28a745";
 
-// === Додаємо кнопку "Видалити товар" тільки у режимі редагування ===
-if (true) {  
+    saveBtn.onclick = () => {
+        // Зібрати оновлені дані
+        product.title = form.querySelector('[name="title"]').value.trim();
+        product.price = form.querySelector('[name="price"]').value.trim();
+        product.inStock = form.querySelector('[name="inStock"]').value;
+        product.brand = form.querySelector('[name="brand"]').value;
+        product.purpose = form.querySelector('[name="purpose"]').value;
+        product.description = form.querySelector('[name="description"]').value.trim();
+        product.features = form.querySelector('[name="features"]').value.trim();
+        product.image = form.dataset.pastedImage || product.image;
+        product.code = form.querySelector('[name="code"]').value.trim();
+
+        // Оновлення картки на головній
+        cardElement.querySelector("img").src = product.image;
+        cardElement.querySelector(".product-title").textContent = product.title;
+
+        // Оновити масив у localStorage
+        const all = JSON.parse(localStorage.getItem("products") || "[]");
+        const idx = all.findIndex(p => p.code === product.code);
+        if (idx >= 0) {
+            all[idx] = product;
+            localStorage.setItem("products", JSON.stringify(all));
+        }
+
+        form.remove();
+        alert("Товар оновлено!");
+    };
+
+    // --- Кнопка "Видалити товар" ---
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Видалити товар";
     deleteBtn.style.padding = "10px";
@@ -364,91 +536,24 @@ if (true) {
     form.appendChild(deleteBtn);
 
     deleteBtn.addEventListener("click", () => {
-        // Модальне підтвердження
-        const confirmBox = document.createElement("div");
-        confirmBox.style.position = "fixed";
-        confirmBox.style.top = "0";
-        confirmBox.style.left = "0";
-        confirmBox.style.width = "100%";
-        confirmBox.style.height = "100%";
-        confirmBox.style.background = "rgba(0,0,0,0.6)";
-        confirmBox.style.display = "flex";
-        confirmBox.style.justifyContent = "center";
-        confirmBox.style.alignItems = "center";
-        confirmBox.style.zIndex = "1500";
-        const inner = document.createElement("div");
-        inner.style.background = "#fff";
-        inner.style.padding = "20px";
-        inner.style.borderRadius = "10px";
-        inner.style.textAlign = "center";
-        inner.style.width = "260px";
-        inner.style.boxShadow = "0 3px 12px rgba(0,0,0,0.3)";
-        inner.innerHTML = `
-            <p style="font-size:16px; font-weight:600;">Ви впевнені, що хочете видалити товар?</p>
-            <div style="display:flex; justify-content:space-between; margin-top:15px;">
-                <button id="confirm-yes" style="padding:8px 14px; background:#d9534f; color:white; border:none; border-radius:6px; cursor:pointer;">Так</button>
-                <button id="confirm-no" style="padding:8px 14px; background:#555; color:white; border:none; border-radius:6px; cursor:pointer;">Ні</button>
-            </div>
-        `;
+        // підтвердження
+        if (!confirm("Видалити товар?")) return;
 
-        confirmBox.appendChild(inner);
-        document.body.appendChild(confirmBox);
+        // видалення з localStorage
+        const all = JSON.parse(localStorage.getItem("products") || "[]");
+        const updated = all.filter(p => p.code !== product.code);
+        localStorage.setItem("products", JSON.stringify(updated));
 
-        // ‼️ Якщо "Ні" — закрити вікно і нічого не робити
-        inner.querySelector("#confirm-no").onclick = () => confirmBox.remove();
+        // прибрати картку з сайту
+        cardElement.remove();
 
-        // ✅ Якщо "Так" — видалити
-        inner.querySelector("#confirm-yes").onclick = () => {
+        // прибрати форму
+        form.remove();
 
-            // 1. Видаляємо з localStorage
-            const all = JSON.parse(localStorage.getItem("products") || "[]");
-            const updated = all.filter(p => p.code !== product.code);
-            localStorage.setItem("products", JSON.stringify(updated));
-
-            // 2. Видаляємо картку з екрана
-            cardElement.remove();
-
-            // 3. Закриваємо форму
-            form.remove();
-
-            // 4. Закриваємо модалку підтвердження
-            confirmBox.remove();
-
-            alert("Товар успішно видалено!");
-        };
+        alert("Товар видалено.");
     });
 }
 
-    // перевизначаємо поведінку кнопки збереження для оновлення
-    saveBtn.onclick = () => {
-        // читаємо оновлені значення
-        product.title = form.querySelector('[name="title"]').value.trim(); product.price = form.querySelector('[name="price"]').value.trim();
-        product.inStock = form.querySelector('[name="inStock"]').value;
-        product.brand = form.querySelector('[name="brand"]').value;
-        product.purpose = form.querySelector('[name="purpose"]').value;
-        product.description = form.querySelector('[name="description"]').value.trim();
-        product.features = form.querySelector('[name="features"]').value.trim();
-        product.image = form.dataset.pastedImage || product.image;
-
-        // оновлюємо картку на сторінці
-        const imgEl = cardElement.querySelector("img");
-        if (imgEl) imgEl.src = product.image || "";
-        const titleEl = cardElement.querySelector(".product-title");
-        if (titleEl) titleEl.textContent = product.title || "";
-
-        // оновлюємо localStorage
-        const all = JSON.parse(localStorage.getItem("products") || "[]");
-        const idx = all.findIndex(p => p.code === product.code);
-        if (idx >= 0) {
-            all[idx] = product;
-            localStorage.setItem("products", JSON.stringify(all));
-        }
-
-        form.remove();
-        // залишаємо плюс на місці (нічого не чіпаємо)
-        alert("Товар оновлено!");
-    };
-}
 
     // Кнопка під фільтрацією
 const filterSections = document.querySelectorAll(".filter-section");
@@ -882,6 +987,7 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
 
 
 
