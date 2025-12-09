@@ -375,57 +375,10 @@ function createProductCard(product) {
     card.style.color = "#333";
     card.style.fontWeight = "600";
     card.style.boxShadow = "0 3px 10px rgba(0,0,0,0.1)";
-card.setAttribute("data-code", product.code);
+    card.style.cursor = "pointer";  // 🔥 важливо
+    card.setAttribute("data-code", product.code || crypto.randomUUID());
 
-// --- Сердечко для КОРИСТУВАЧА ---
-if (role === "Користувач") {
-
-    const heart = document.createElement("div");
-    heart.className = "heart-icon";
-    heart.innerHTML = "&#10084;";
-    heart.setAttribute("data-code", product.code);
-
-    // Стилі
-    heart.style.position = "absolute";
-    heart.style.top = "8px";
-    heart.style.right = "8px";
-    heart.style.fontSize = "22px";
-    heart.style.cursor = "pointer";
-    heart.style.color = "transparent";               // не зафарбоване
-    heart.style.webkitTextStroke = "2px #ff6b81";   // контур
-    heart.style.transition = "0.25s";
-
-    card.style.position = "relative";
-    card.appendChild(heart);
-
-    // Список збережених улюблених товарів
-    let favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
-
-    // Якщо товар уже в улюблених — робимо серце однотонним
-    if (favourites.includes(product.code)) {
-        heart.style.color = "#ff6b81";  
-    }
-
-    // Клік — додати / прибрати з улюблених
-    heart.addEventListener("click", (e) => {
-        e.stopPropagation(); // щоб не відкривалась картка товару
-
-        let list = JSON.parse(localStorage.getItem("favourites") || "[]");
-
-        if (list.includes(product.code)) {
-            // Видалити із улюблених
-            list = list.filter(code => code !== product.code);
-            heart.style.color = "transparent";
-        } else {
-            // Додати до улюблених
-            list.push(product.code);
-            heart.style.color = "#ff6b81";
-        }
-
-        localStorage.setItem("favourites", JSON.stringify(list));
-    });
-}
-    // Фото
+    // ---- Фото ----
     const img = document.createElement("img");
     img.src = product.image || "";
     img.style.width = "100%";
@@ -434,25 +387,24 @@ if (role === "Користувач") {
     img.style.borderRadius = "8px";
     card.appendChild(img);
 
-    // Назва
+    // ---- Назва ----
     const title = document.createElement("p");
-    title.className = "product-title";
-    title.textContent = product.title || "";
-    title.style.margin = "10px 0 0 0";
+    title.textContent = product.title || "Без назви";
+    title.style.marginTop = "10px";
     card.appendChild(title);
 
-    // --- Логіка кліку: різна для адміна і користувача ---
+    // ---- Логіка кліку ----
     card.addEventListener("click", () => {
-    const role = localStorage.getItem("role");
+        const role = localStorage.getItem("role");
 
-    if (role === "Адміністратор") {
-        openEditForm(product, card);
-    } else {
-        openProductPage(product);   // ← тепер відкривається красива сторінка товару
-    }
-});
+        if (role === "Адміністратор") {
+            openEditForm(product, card);   // 🔥 тепер працює стабільно
+        } else {
+            openProductPage(product);
+        }
+    });
 
-    // Вставляємо картку ПІСЛЯ "+"
+    // Додаємо в DOM
     const addBox = productsContainer.querySelector(".admin-add-box");
     if (addBox) {
         addBox.insertAdjacentElement("afterend", card);
@@ -461,17 +413,17 @@ if (role === "Користувач") {
     }
 }
 
+
 function openEditForm(product, cardElement) {
     const homeSection = document.getElementById("home");
 
-    // Прибрати попередню форму якщо вона є
     const oldForm = document.querySelector(".product-form-container");
     if (oldForm) oldForm.remove();
 
-    // Створити форму редагування
     const form = createProductForm(homeSection, true);
+    homeSection.appendChild(form);
 
-    // Заповнення значень
+    // Заповнення
     form.querySelector('[name="title"]').value = product.title || "";
     form.querySelector('[name="price"]').value = product.price || "";
     form.querySelector('[name="inStock"]').value = product.inStock || "yes";
@@ -481,23 +433,20 @@ function openEditForm(product, cardElement) {
     form.querySelector('[name="features"]').value = product.features || "";
     form.querySelector('[name="code"]').value = product.code || "";
 
-    // Показати зображення, якщо є
     if (product.image) {
         const prev = form.querySelector("#preview-img");
-        if (prev) {
-            prev.src = product.image;
-            prev.style.display = "block";
-        }
+        prev.src = product.image;
+        prev.style.display = "block";
         form.dataset.pastedImage = product.image;
     }
 
-    // --- Кнопка "Оновити товар" ---
+    // --- ЗБЕРЕГТИ ---
     const saveBtn = form.querySelector(".save-product-btn");
-    saveBtn.textContent = "Оновити товар";
-    saveBtn.style.background = "#28a745";
-
     saveBtn.onclick = () => {
-        // Зібрати оновлені дані
+
+        const updatedCode = form.querySelector('[name="code"]').value.trim();
+
+        // Оновити всі поля
         product.title = form.querySelector('[name="title"]').value.trim();
         product.price = form.querySelector('[name="price"]').value.trim();
         product.inStock = form.querySelector('[name="inStock"]').value;
@@ -505,58 +454,43 @@ function openEditForm(product, cardElement) {
         product.purpose = form.querySelector('[name="purpose"]').value;
         product.description = form.querySelector('[name="description"]').value.trim();
         product.features = form.querySelector('[name="features"]').value.trim();
+        product.code = updatedCode || product.code;
         product.image = form.dataset.pastedImage || product.image;
-        product.code = form.querySelector('[name="code"]').value.trim();
 
-        // Оновлення картки на головній
+        // Оновити картку
         cardElement.querySelector("img").src = product.image;
-        cardElement.querySelector(".product-title").textContent = product.title;
+        cardElement.querySelector("p").textContent = product.title;
 
-        // Оновити масив у localStorage
-        const all = JSON.parse(localStorage.getItem("products") || "[]");
-        const idx = all.findIndex(p => p.code === product.code);
-        if (idx >= 0) {
-            all[idx] = product;
-            localStorage.setItem("products", JSON.stringify(all));
-        }
+        // Оновити localStorage
+        let all = JSON.parse(localStorage.getItem("products"));
+        all = all.map(p => p.code === product.code ? product : p);
+        localStorage.setItem("products", JSON.stringify(all));
 
         form.remove();
         alert("Товар оновлено!");
     };
 
-    // --- Кнопка "Видалити товар" ---
+    // --- ВИДАЛИТИ ---
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Видалити товар";
-    deleteBtn.style.padding = "10px";
+    deleteBtn.className = "delete-btn";
     deleteBtn.style.marginTop = "15px";
-    deleteBtn.style.width = "100%";
-    deleteBtn.style.background = "#d9534f";
-    deleteBtn.style.color = "white";
-    deleteBtn.style.border = "none";
-    deleteBtn.style.borderRadius = "8px";
-    deleteBtn.style.cursor = "pointer";
-    deleteBtn.style.fontWeight = "600";
 
-    form.appendChild(deleteBtn);
-
-    deleteBtn.addEventListener("click", () => {
-        // підтвердження
+    deleteBtn.onclick = () => {
         if (!confirm("Видалити товар?")) return;
 
-        // видалення з localStorage
-        const all = JSON.parse(localStorage.getItem("products") || "[]");
+        const all = JSON.parse(localStorage.getItem("products"));
         const updated = all.filter(p => p.code !== product.code);
         localStorage.setItem("products", JSON.stringify(updated));
 
-        // прибрати картку з сайту
         cardElement.remove();
-
-        // прибрати форму
         form.remove();
-
         alert("Товар видалено.");
-    });
+    };
+
+    form.appendChild(deleteBtn);
 }
+
 
 
     // Кнопка під фільтрацією
@@ -991,6 +925,7 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
 
 
 
