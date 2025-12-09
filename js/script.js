@@ -375,6 +375,7 @@ function createProductCard(product) {
     card.style.color = "#333";
     card.style.fontWeight = "600";
     card.style.boxShadow = "0 3px 10px rgba(0,0,0,0.1)";
+card.setAttribute("data-code", product.code);
 
 // --- Сердечко для КОРИСТУВАЧА ---
 if (role === "Користувач") {
@@ -990,6 +991,7 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
 
 
 
