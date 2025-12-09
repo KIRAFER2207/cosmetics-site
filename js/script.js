@@ -377,6 +377,51 @@ function createProductCard(product) {
     card.style.boxShadow = "0 3px 10px rgba(0,0,0,0.1)";
     card.style.cursor = "pointer";  // 🔥 важливо
     card.setAttribute("data-code", product.code || crypto.randomUUID());
+// ===== ❤️ СЕРДЕЧКО ТІЛЬКИ ДЛЯ КОРИСТУВАЧА =====
+    if (role === "Користувач") {
+
+        const heart = document.createElement("div");
+        heart.className = "heart-icon";
+        heart.innerHTML = "&#10084;";
+        heart.setAttribute("data-code", product.code);
+
+        // Стилі серця
+        heart.style.position = "absolute";
+        heart.style.top = "8px";
+        heart.style.right = "8px";
+        heart.style.fontSize = "22px";
+        heart.style.cursor = "pointer";
+        heart.style.color = "transparent";
+        heart.style.webkitTextStroke = "2px #ff6b81";
+
+        let favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
+
+        // Якщо товар у фаворитах — зробити заповненим
+        if (favourites.includes(product.code)) {
+            heart.style.color = "#ff6b81";
+        }
+
+        // Прив’язати до картки
+        card.style.position = "relative";
+        card.appendChild(heart);
+
+        // Логіка кліку по сердечку
+        heart.addEventListener("click", (e) => {
+            e.stopPropagation();
+
+            let list = JSON.parse(localStorage.getItem("favourites") || "[]");
+
+            if (list.includes(product.code)) {
+                list = list.filter(c => c !== product.code);
+                heart.style.color = "transparent";
+            } else {
+                list.push(product.code);
+                heart.style.color = "#ff6b81";
+            }
+
+            localStorage.setItem("favourites", JSON.stringify(list));
+        });
+    }
 
     // ---- Фото ----
     const img = document.createElement("img");
@@ -925,6 +970,7 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
 
 
 
