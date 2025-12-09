@@ -40,16 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
     loginBtn.insertAdjacentElement('afterend', loginContainer);
     loginContainer.appendChild(loginBtn);
 
-  // Створюємо повідомлення
-let loginMessage = document.createElement("p");
-loginMessage.id = "login-message";
-loginMessage.style.color = "white";
-loginMessage.style.fontSize = "12px";
-loginMessage.style.margin = "0"; // прибираємо вертикальні відступи
-loginMessage.style.display = "inline"; // <--- ключова зміна
-loginMessage.textContent = "";
-loginContainer.insertBefore(loginMessage, loginBtn);
-
     // Клік на кнопку "Увійти"
     loginBtn.addEventListener("click", async () => {
     try {
@@ -70,7 +60,6 @@ loginContainer.insertBefore(loginMessage, loginBtn);
         localStorage.setItem("role", role);
         localStorage.setItem("userEmail", user.email);
 
-        restoreUserState();
         reRenderAllProducts();
 
         alert(`Ви увійшли як: ${role}`);
@@ -879,13 +868,5 @@ function restoreHeartsOnProducts() {
         });
     });
     logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("role");
-    localStorage.removeItem("userEmail");
-
-    auth.signOut().catch(() => {});
-
-    alert("Ви вийшли з акаунту!");
-    location.reload();
-});
-
 }
+
