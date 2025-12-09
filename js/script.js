@@ -60,8 +60,7 @@ loginContainer.insertBefore(loginMessage, loginBtn);
 
         // Перевірка на адміністратора
         const adminEmails = [
-            "admin@gmail.com",
-            "your-admin@mail.com"
+            "ferchuk@s12.pp.ua",
         ];
 
         let role = adminEmails.includes(user.email)
@@ -874,6 +873,7 @@ function restoreHeartsOnProducts() {
         });
     });
 }
+
 
 
 
