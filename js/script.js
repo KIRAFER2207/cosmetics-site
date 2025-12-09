@@ -505,136 +505,6 @@ links.forEach(link => {
         createProductCard(p, homeSection);
     });
 })();
-function createAddBox(homeSection) {
-    let addBox = document.createElement("div");
-    addBox.className = "admin-add-box";
-
-    addBox.style.width = "120px";
-    addBox.style.height = "120px";
-    addBox.style.border = "2px dashed #fff";
-    addBox.style.borderRadius = "12px";
-    addBox.style.display = "flex";
-    addBox.style.alignItems = "center";
-    addBox.style.justifyContent = "center";
-    addBox.style.cursor = "pointer";
-    addBox.style.fontSize = "48px";
-    addBox.style.color = "#fff";
-    addBox.textContent = "+";
-
-    addBox.addEventListener("click", () => {
-        addBox.remove();
-        createProductForm(homeSection);
-    });
-
-    return addBox;
-}
-
-function createProductForm(homeSection, isEdit = false) {
-    const form = document.createElement("div");
-    form.className = "product-form-container";
-
-    form.style.position = "fixed";
-    form.style.top = "0";
-    form.style.left = "0";
-    form.style.width = "100%";
-    form.style.height = "100%";
-    form.style.background = "rgba(0,0,0,0.6)";
-    form.style.display = "flex";
-    form.style.justifyContent = "center";
-    form.style.alignItems = "center";
-    form.style.zIndex = "3000";
-
-    // сама форма
-    const box = document.createElement("div");
-    box.style.background = "#fff";
-    box.style.padding = "25px";
-    box.style.borderRadius = "14px";
-    box.style.width = "600px";
-    box.style.maxHeight = "90%";
-    box.style.overflowY = "auto";
-    box.style.boxShadow = "0 4px 15px rgba(0,0,0,0.2)";
-    box.style.display = "flex";
-    box.style.flexDirection = "column";
-    box.style.gap = "12px";
-
-    box.innerHTML = `
-        <h2 style="text-align:center; margin-bottom:10px;">
-            ${isEdit ? "Редагування товару" : "Додати товар"}
-        </h2>
-
-        <label>Назва товару:
-            <input name="title" type="text" style="width:100%; padding:8px; margin-top:4px;">
-        </label>
-
-        <label>Ціна:
-            <input name="price" type="number" style="width:100%; padding:8px; margin-top:4px;">
-        </label>
-
-        <label>Бренд:
-            <input name="brand" type="text" style="width:100%; padding:8px; margin-top:4px;">
-        </label>
-
-        <label>Призначення:
-            <input name="purpose" type="text" style="width:100%; padding:8px; margin-top:4px;">
-        </label>
-
-        <label>Опис:
-            <textarea name="description" style="width:100%; height:90px; padding:8px; margin-top:4px;"></textarea>
-        </label>
-
-        <label>Особливості:
-            <textarea name="features" style="width:100%; height:90px; padding:8px; margin-top:4px;"></textarea>
-        </label>
-
-        <label>Код товару:
-            <input name="code" type="text" style="width:100%; padding:8px; margin-top:4px;">
-        </label>
-
-        <label>Зображення (Ctrl+V):
-            <img id="preview-img" style="width:100%; margin-top:10px; display:none; border-radius:10px; border:1px solid #ddd;">
-        </label>
-
-        <button class="save-product-btn" style="
-            padding:10px; background:#d6336c; color:white; border:none; border-radius:8px;
-            font-size:16px; cursor:pointer; width:100%; margin-top:10px;">
-            ${isEdit ? "Оновити товар" : "Зберегти"}
-        </button>
-
-        <button class="cancel-btn" style="
-            padding:10px; background:#444; color:white; border:none; border-radius:8px;
-            font-size:16px; cursor:pointer; width:100%; margin-top:8px;">
-            Скасувати
-        </button>
-    `;
-
-    form.appendChild(box);
-    document.body.appendChild(form);
-
-    // --- вставка картинки Ctrl+V ---
-    form.addEventListener("paste", e => {
-        const items = e.clipboardData.items;
-        for (let item of items) {
-            if (item.type.indexOf("image") === 0) {
-                const blob = item.getAsFile();
-                const reader = new FileReader();
-                reader.onload = () => {
-                    box.querySelector("#preview-img").src = reader.result;
-                    box.querySelector("#preview-img").style.display = "block";
-                    form.dataset.pastedImage = reader.result;
-                };
-                reader.readAsDataURL(blob);
-            }
-        }
-    });
-
-    // кнопка Скасувати
-    box.querySelector(".cancel-btn").addEventListener("click", () => {
-        form.remove();
-        if (!isEdit) homeSection.appendChild(createAddBox(homeSection));
-    });
-
-    return form;
-}
 
 restoreUserState();
 function openProductPage(product) {
@@ -1012,6 +882,7 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
 
 
 
