@@ -359,41 +359,37 @@ header {
 }
 /* Прямокутник для додавання товарів (адмін) */
 .admin-add-box {
-    width: 180px;
-    height: 140px;
-    border: 2px dashed #ff6b81;
+    width: 200px;
+    height: 150px;
+    border: 2px dashed #aaa;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 20px 0;
+    margin-top: 20px;
     cursor: pointer;
-    background-color: #fff7f7;
-    transition: 0.3s;
+    background-color: #f9f9f9;
+    transition: background-color 0.2s, border-color 0.2s;
 }
 
+
 .admin-add-box:hover {
-    background-color: #ffe2e6;
-    border-color: #ff3b63;
+    background-color: #f0f0f0;
+    border-color: #888;
 }
 
 .admin-add-box span {
-    font-size: 42px;
-    color: #ff3b63;
-    font-weight: bold;
+    font-size: 36px;
+    color: #555;
+}
+.product-form-container {
+    background: #222;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
 }
 
-/* === Адмін: форма додавання/редагування товару === */
-.product-form-container {
-    background: #fff; 
-    color: #333;
-    padding: 20px;
-    border-radius: 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    margin-top: 20px;
-    width: 100%;
-    max-width: 500px;
-}
 
 /* Поля форми */
 .product-form-container input,
@@ -548,6 +544,7 @@ header {
 }
 .status-dot.in-stock { background: green; }
 .status-dot.out-of-stock { background: red; }
+
 
 
 
