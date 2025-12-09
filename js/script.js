@@ -505,6 +505,129 @@ links.forEach(link => {
         createProductCard(p, homeSection);
     });
 })();
+function createAddBox() {
+    const box = document.createElement("div");
+    box.className = "admin-add-box";
+    box.textContent = "+";
+    box.style.width = "150px";
+    box.style.height = "200px";
+    box.style.border = "2px dashed #DC143C";
+    box.style.borderRadius = "12px";
+    box.style.display = "flex";
+    box.style.justifyContent = "center";
+    box.style.alignItems = "center";
+    box.style.fontSize = "40px";
+    box.style.color = "#DC143C";
+    box.style.cursor = "pointer";
+    box.style.margin = "10px";
+
+    box.addEventListener("click", () => {
+        openAddProductForm();
+    });
+
+    return box;
+}
+
+function createProductForm(product = null, onSave) {
+    const modal = document.createElement("div");
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.left = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.background = "rgba(0,0,0,0.6)";
+    modal.style.display = "flex";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.style.zIndex = "1000";
+
+    const box = document.createElement("div");
+    box.style.background = "#fff";
+    box.style.padding = "20px";
+    box.style.borderRadius = "12px";
+    box.style.width = "320px";
+    box.style.display = "flex";
+    box.style.flexDirection = "column";
+    box.style.gap = "10px";
+
+    const titleInput = document.createElement("input");
+    titleInput.placeholder = "Назва товару";
+    titleInput.value = product?.title || "";
+
+    const brandInput = document.createElement("input");
+    brandInput.placeholder = "Бренд";
+    brandInput.value = product?.brand || "";
+
+    const priceInput = document.createElement("input");
+    priceInput.placeholder = "Ціна";
+    priceInput.value = product?.price || "";
+
+    const purposeInput = document.createElement("input");
+    purposeInput.placeholder = "Призначення";
+    purposeInput.value = product?.purpose || "";
+
+    const descriptionInput = document.createElement("input");
+    descriptionInput.placeholder = "Опис";
+    descriptionInput.value = product?.description || "";
+
+    const imageInput = document.createElement("input");
+    imageInput.placeholder = "URL зображення";
+    imageInput.value = product?.image || "";
+
+    const saveBtn = document.createElement("button");
+    saveBtn.textContent = "Зберегти";
+    saveBtn.style.background = "#28a745";
+    saveBtn.style.color = "#fff";
+    saveBtn.style.padding = "8px";
+    saveBtn.style.borderRadius = "6px";
+
+    saveBtn.addEventListener("click", () => {
+        const newProduct = {
+            code: product?.code || Date.now().toString(),
+            title: titleInput.value,
+            brand: brandInput.value,
+            price: priceInput.value,
+            purpose: purposeInput.value,
+            description: descriptionInput.value,
+            image: imageInput.value
+        };
+
+        onSave(newProduct);
+        modal.remove();
+    });
+
+    const cancelBtn = document.createElement("button");
+    cancelBtn.textContent = "Скасувати";
+    cancelBtn.style.padding = "8px";
+    cancelBtn.style.borderRadius = "6px";
+
+    cancelBtn.addEventListener("click", () => modal.remove());
+
+    box.append(
+        titleInput,
+        brandInput,
+        priceInput,
+        purposeInput,
+        descriptionInput,
+        imageInput,
+        saveBtn,
+        cancelBtn
+    );
+
+    modal.appendChild(box);
+    return modal;
+}
+
+function openAddProductForm() {
+    const form = createProductForm(null, (newProduct) => {
+        const list = JSON.parse(localStorage.getItem("products") || "[]");
+        list.push(newProduct);
+        localStorage.setItem("products", JSON.stringify(list));
+        location.reload();
+    });
+    document.body.appendChild(form);
+}
+
 restoreUserState();
 function openProductPage(product) {
     // Видаляємо попередню сторінку товару, якщо вона є
@@ -881,6 +1004,7 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+
 
 
 
