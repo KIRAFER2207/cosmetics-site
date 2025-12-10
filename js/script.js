@@ -970,6 +970,44 @@ logoutBtn.addEventListener("click", () => {
     alert("Ви вийшли з акаунту!");
     location.reload();
 });
+// =====================
+//  ІМПОРТ ТОВАРІВ У BACKEND (зробити один раз)
+// =====================
+
+async function importLocalProductsToBackend() {
+    // читаємо товари з LocalStorage
+    const localProducts = JSON.parse(localStorage.getItem("products") || "[]");
+
+    if (!localProducts.length) {
+        console.log("❗ Немає товарів для імпорту.");
+        return;
+    }
+
+    console.log("🔄 Починаю імпорт товарів у backend...");
+
+    for (const product of localProducts) {
+        try {
+            const res = await fetch("http://localhost:3000/api/products", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(product)
+            });
+
+            if (!res.ok) {
+                console.log("⚠ Помилка імпорту товару:", product.code);
+            } else {
+                console.log("✅ Імпортовано:", product.code);
+            }
+
+        } catch (err) {
+            console.error("❌ Помилка:", err);
+        }
+    }
+
+    console.log("🎉 Імпорт завершено!");
+}
+importLocalProductsToBackend();
+
 
 
 
